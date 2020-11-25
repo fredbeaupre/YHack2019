@@ -2,6 +2,7 @@ from keras.datasets import mnist
 from keras import models
 from keras import layers
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def generator_model(dims):
@@ -22,7 +23,27 @@ def generator_model(dims):
     return model
 
 
+def create_random_points(dims, num_samples):
+    random_points = np.random.randn(dims * num_samples)
+    random_points = random_points.reshape(num_samples, dims)
+    return random_points
+
+
+def create_random_img(generator, dims, num_samples):
+    random_img = create_random_points(dims, num_samples)
+    pred = generator.predict(random_img)
+    label = np.zeros((num_samples, 1))
+    return pred, label
+
+
 if __name__ == "__main__":
     dims = 500
     generator = generator_model(dims)
-    generator.summary()
+    num_samples = 25
+    fake_images, _ = create_random_img(generator, dims, num_samples)
+
+    for i in range(num_samples):
+        plt.subplot(5, 5, i + 1)
+        plt.axis('off')
+        plt.imshow(fake_images[i, :, :, 0], cmap='gray_r')
+    plt.show()
