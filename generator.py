@@ -11,5 +11,8 @@ if __name__ == "__main__":
     print(f'train data: {x_train.shape}, {y_train.shape}')
     print(f'test data: {x_test.shape}, {y_test.shape}')
 
-    plt.imshow(x_train[5], cmap='gray_r')
+    for i in range(100):
+        plt.subplot(10, 10, 1 + i)
+        plt.axis('off')
+        plt.imshow(x_train[i], cmap='gray_r')
     plt.show()
