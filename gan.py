@@ -32,7 +32,7 @@ def create_random_points(dims, num_samples):
     return random_points
 
 
-def create_random_img(generator, dims, num_samples):
+def create_fake_images(generator, dims, num_samples):
     random_img = create_random_points(dims, num_samples)
     pred = generator.predict(random_img)
     label = np.zeros((num_samples, 1))
@@ -104,9 +104,52 @@ def train(model, dataset, num_iters=100, batch_size=256):
         print(f'Accuracy on fake samples: {fake_accuracy*100}\n\n')
 
 
+def save_image(image, epoch, n=10):
+    for i in range(n*n):
+        plt.subplot(n, n, i+1)
+        plt.axis('off')
+        plt.imshow(image[i, :, :, 0], cmap='gray_r')
+    file_name = 'plot_epoch%03d.png' % (epoch+1)
+    plt.savefig(file_name)
+    plt.close()
+
+
+def recap(epoch, generator, discriminator, dataset, dims, num_samples=100):
+    real_x, real_y = select_real_digits(dataset, num_samples)
+    _, real_accuracy = discriminator.evaluate(real_x, real_y, verbose=0)
+    fake_x, fake_y = create_fake_images(generator, dims, num_samples)
+    _, fake_accuracy = discriminator.evalute(fake_x, fake_y, verbose=0)
+    print('Accuracy on real samples: %.0f%%; Accuracy onf fake samples: %.0f%%' % (
+        real_accuracy*100, fake_accuracy*100))
+    save_image(fake_x, epoch)
+    file_name = 'generator_%03d.h5' % (epoch+1)
+    generator.save(file_name)
+
+
+def train_gan(generator, discriminator, gan, dataset, dims, num_epochs=100, batch_size=256):
+    batches_per_epoch = int(dataset.shape[0] / batch_size)
+    half_batch_size = int(batch_size / 2)
+
+    for i in range(num_epochs):
+        for j in range(batches_per_epoch):
+            real_x, real_y = select_real_digits(dataset, half_batch_size)
+            fake_x, fake_y = create_fake_images(
+                generator, dims, half_batch_size)
+            X, y = np.vstack((real_x, fake_x)), np.vstack((real_y, fake_y))
+            discriminator_loss, _ = discriminator.train_on_batch(X, y)
+            gan_x = create_random_points(dims, batch_size)
+            gan_y = np.ones((batch_size, 1))
+            generator_loss = gan.train_on_batch(gan_x, gan_y)
+            print('>>> Epoch %d, Batch %d/%d: Generator Loss=%.3f, Discriminator Loss=%.3f' %
+                  (i+1, j+1, batches_per_epoch, generator_loss, discriminator_loss))
+        if (i+1) % 5 == 0:
+            recap(i, generator, discriminator, dataset, dims)
+
+
 if __name__ == "__main__":
     dims = 500
     discriminator = discriminator_model()
     generator = generator_model(dims)
     gan = gan_model(generator, discriminator)
-    gan.summary()
+    mnist_data = preprocess_mnist()
+    train_gan(generator, discriminator, gan, mnist_data, dims)
