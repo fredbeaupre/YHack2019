@@ -7,3 +7,9 @@
 
 ## Generator Model
 ![Generator](https://github.com/fredbeaupre/YHack2019/blob/master/generator_summary.png)
+
+## Discriminator Model 
+![Discriminator](https://github.com/fredbeaupre/YHack2019/blob/master/discriminator_summary.png)
+
+## Full GAN Model 
+![GAN](https://github.com/fredbeaupre/YHack2019/blob/master/gan_summary.png)
