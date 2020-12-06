@@ -118,7 +118,7 @@ def recap(epoch, generator, discriminator, dataset, dims, num_samples=100):
     real_x, real_y = select_real_digits(dataset, num_samples)
     _, real_accuracy = discriminator.evaluate(real_x, real_y, verbose=0)
     fake_x, fake_y = create_fake_images(generator, dims, num_samples)
-    _, fake_accuracy = discriminator.evalute(fake_x, fake_y, verbose=0)
+    _, fake_accuracy = discriminator.evaluate(fake_x, fake_y, verbose=0)
     print('Accuracy on real samples: %.0f%%; Accuracy onf fake samples: %.0f%%' % (
         real_accuracy*100, fake_accuracy*100))
     save_image(fake_x, epoch)
