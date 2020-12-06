@@ -5,6 +5,9 @@
 - keras == 2.2.4
 - matplotlib == 3.1.1
 
+## MNIST Data
+![MNIST](https://github.com/fredbeaupre/YHack2019/blob/master/first_hundred.png)
+
 ## Generator Model
 ![Generator](https://github.com/fredbeaupre/YHack2019/blob/master/generator_summary.png)
 
