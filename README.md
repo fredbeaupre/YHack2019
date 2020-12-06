@@ -16,3 +16,17 @@
 
 ## Full GAN Model 
 ![GAN](https://github.com/fredbeaupre/YHack2019/blob/master/gan_summary.png)
+
+## Model-Generated Digits
+### At epoch 5
+![Five](https://github.com/fredbeaupre/YHack2019/blob/master/generated-digits/plot_epoch005.png)
+### At epoch 20
+![Twenty]https://github.com/fredbeaupre/YHack2019/blob/master/generated-digits/plot_epoch020.png
+### At epoch 40
+![Forty]https://github.com/fredbeaupre/YHack2019/blob/master/generated-digits/plot_epoch040.png
+### At epoch 60
+![Sixty]https://github.com/fredbeaupre/YHack2019/blob/master/generated-digits/plot_epoch060.png
+### At epoch 80
+![Eighty]https://github.com/fredbeaupre/YHack2019/blob/master/generated-digits/plot_epoch080.png
+### At epoch 100 (last)
+![One Hundred]https://github.com/fredbeaupre/YHack2019/blob/master/generated-digits/plot_epoch100.png
